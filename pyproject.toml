@@ -1,0 +1,11 @@
+[project]
+name = "datasetvariants"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "bm3d>=4.0.3",
+    "pillow>=12.0.0",
+    "rich>=14.2.0",
+    "scikit-image>=0.25.2",
+    "tqdm>=4.67.1",
+]
