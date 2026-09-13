@@ -60,16 +60,31 @@ class Dataset:
             training_video_combinations = list(
                 combinations(videos, num_train_videos_per_dataset)
             )
+        training_video_combinations = list(dict.fromkeys(training_video_combinations))
         random.shuffle(training_video_combinations)
         training_videos = [training_video_combinations[0]]
         while len(training_videos) < num_dataset_combinations:
+            # Average each candidate's overlap across ALL already-selected splits so
+            # every new variant is dissimilar to every previous one.
+            combination_overlap_percentage_with_training_videos = defaultdict(float)
+            already_selected = set(training_videos)
             for training_video in training_videos:
-                combination_overlap_percentage_with_training_videos = defaultdict(int)
                 for combination in training_video_combinations:
+                    if combination in already_selected:
+                        continue
                     overlap = set(combination) & set(training_video)
                     combination_overlap_percentage_with_training_videos[
                         combination
                     ] += len(overlap) / len(combination)
+
+            if not combination_overlap_percentage_with_training_videos:
+                raise ValueError(
+                    f"Only {len(training_videos)} distinct train/test splits are "
+                    f"possible for {len(videos)} videos taken "
+                    f"{num_train_videos_per_dataset} at a time, but "
+                    f"{num_dataset_combinations} were requested."
+                )
+
             average_overlap_percentage_across_training_videos = {}
             for (
                 combination,
@@ -95,6 +110,15 @@ class Dataset:
         )
         assert len(train_video_combinations) == num_dataset_combinations, (
             f"Num train video combinations ({len(train_video_combinations)}) does not match the num dataset combinations ({num_dataset_combinations})"
+        )
+        # Every variant must be a distinct train/test split.
+        distinct_combinations = {
+            frozenset(combination) for combination in train_video_combinations
+        }
+        assert len(distinct_combinations) == num_dataset_combinations, (
+            f"Only {len(distinct_combinations)} distinct train splits were generated "
+            f"for {num_dataset_combinations} requested variants -- the variants are "
+            f"duplicates of each other, not independent folds."
         )
         test_video_combinations = [
             set(self.available_videos) - set(train_video_combination)
@@ -320,15 +344,23 @@ def update_preprocessed_prompt_paths(
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--remove-created-datasets", action="store_true")
-    parser.add_argument("--num-dataset-combinations", type=int, default=5)
+    parser.add_argument("--num-dataset-combinations", type=int, default=2)
     parser.add_argument(
         "--new-dataset-root", type=str, default="./SAM2imagescrossvalidation"
+    )
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=0,
+        help="RNG seed so the generated splits are reproducible",
     )
     args = parser.parse_args()
 
     if args.remove_created_datasets:
         remove_all_created_datasets()
         exit()
+
+    random.seed(args.seed)
 
     Path(args.new_dataset_root).mkdir(parents=True, exist_ok=True)
 
