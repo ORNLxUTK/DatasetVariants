@@ -65,3 +65,43 @@ Every created dataset path is appended to `datasets_created.txt`.
 - `irPOLYMERglobalnorm{NN}`: global min-max normalization + unsharp mask + BM3D denoising
 
 Prompt frame paths are rewritten to point at the preprocessed dataset.
+
+## Citation
+
+If you use this code or dataset in your research, please cite:
+
+```bibtex
+@article{wetzel2026domainspecific,
+  title={Domain-specific adaptation: low-rank adaptation fine-tuning of {SAM} 2 for manufacturing processes},
+  author={Wetzel, C. and Haley, J. and Paquit, V. and Orlyanchik, V. and Santos-Villalobos, H.},
+  journal={Journal of Intelligent Manufacturing},
+  year={2026},
+  doi={10.1007/s10845-026-02973-6}
+}
+
+@article{wetzel2026amvosdib,
+  title={Cross domain additive manufacturing video object segmentation dataset},
+  author={Wetzel, Calvin and Santos-Villalobos, Hector and Haley, James and Orlyanchik, Vladimir and Rodriguez Parra, Mario and Paramanathan, Mithulan and Feldhausen, Tom and Sebok, Michael and Masuo, Chris and Paquit, Vincent},
+  journal={Data in Brief},
+  pages={113249},
+  year={2026},
+  doi={10.1016/j.dib.2026.113249}
+}
+
+@misc{wetzel2026amvosdataset,
+  title={{AMVOS}: Additive Manufacturing Video Object Segmentation Dataset},
+  author={Wetzel, Calvin and Santos-Villalobos, Hector and Haley, James and Orlyanchik, Vladimir and Rodriguez Parra, Mario Alberto and Paramanathan, Mithulan and Feldhausen, Thomas and Sebok, Michael and Masuo, Christopher and Paquit, Vincent},
+  publisher={Harvard Dataverse},
+  version={V1},
+  year={2026},
+  doi={10.7910/DVN/5GSQTS}
+}
+```
+
+## Article
+
+[1] C. Wetzel, J. Haley, V. Paquit, V. Orlyanchik, H. Santos-Villalobos, Domain-specific adaptation: low-rank adaptation fine-tuning of SAM 2 for manufacturing processes, Journal of Intelligent Manufacturing (2026). https://doi.org/10.1007/s10845-026-02973-6
+
+[2] C. Wetzel, H. Santos-Villalobos, J. Haley, V. Orlyanchik, M. Rodriguez Parra, M. Paramanathan, T. Feldhausen, M. Sebok, C. Masuo, V. Paquit, Cross domain additive manufacturing video object segmentation dataset, Data in Brief (2026) 113249. https://doi.org/10.1016/j.dib.2026.113249
+
+[3] C. Wetzel, H. Santos-Villalobos, J. Haley, V. Orlyanchik, M.A. Rodriguez Parra, M. Paramanathan, T. Feldhausen, M. Sebok, C. Masuo, V. Paquit, AMVOS: Additive Manufacturing Video Object Segmentation Dataset, Harvard Dataverse, V1 (2026). https://doi.org/10.7910/DVN/5GSQTS
